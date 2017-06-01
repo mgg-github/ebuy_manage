@@ -1,8 +1,8 @@
 package com.taotao.manage.pojo;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,8 +12,7 @@ public class ItemCatData {
     @JsonProperty("n")
     private String name;
     @JsonProperty("s")
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<?> items;
+    private List<ItemCatData> items = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -23,11 +22,11 @@ public class ItemCatData {
         this.name = name;
     }
 
-    public List<?> getItems() {
+    public List<ItemCatData> getItems() {
         return items;
     }
 
-    public void setItems(List<?> items) {
+    public void setItems(List<ItemCatData> items) {
         this.items = items;
     }
 

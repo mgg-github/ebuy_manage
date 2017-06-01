@@ -1,5 +1,7 @@
 package com.taotao.manage.service;
 
+import com.github.abel533.entity.Example;
+import com.taotao.manage.pojo.Item;
 import com.taotao.manage.pojo.ItemCat;
 import com.taotao.manage.pojo.ItemCatData;
 import org.springframework.stereotype.Service;
@@ -30,27 +32,25 @@ public class ItemCatService extends BaseService<ItemCat> {
         for (ItemCat topCat :topLevel) {
             ItemCatData topData = new ItemCatData();
             topDataList.add(topData);
-            String topUrl ="/products/"+topCat.getId()+".html";
+            String topUrl ="www.taotao.com/products/"+topCat.getId()+".html";
             topData.setName(topUrl+"|"+topCat.getName());
             if(topCat.getIsParent()){
-                List<ItemCatData> middleDataList = new ArrayList<>();
-                topData.setItems(middleDataList);
+                List<ItemCatData> middleDataList = topData.getItems();
                 List<ItemCat> middleLevel = mapById.get(topCat.getId());
                 for (ItemCat middleCat :
                      middleLevel) {
                     ItemCatData middleData = new ItemCatData();
                     middleDataList.add(middleData);
-                    String middleUrl ="/products/"+middleCat.getId()+".html";
+                    String middleUrl ="www.taotao.com/products/"+middleCat.getId()+".html";
                     middleData.setName(middleUrl+"|"+middleCat.getName());
                     if(middleCat.getIsParent()){
-                        List<ItemCatData> bottomDataList = new ArrayList<>();
-                        middleData.setItems(bottomDataList);
+                        List<ItemCatData> bottomDataList = middleData.getItems();
                         List<ItemCat> bottomLevel = mapById.get(middleCat.getId());
                         for (ItemCat bottomCat :
                                 bottomLevel) {
                             ItemCatData bottomData = new ItemCatData();
                             bottomDataList.add(bottomData);
-                            String bottomUrl ="/products/"+bottomCat.getId()+".html";
+                            String bottomUrl ="www.taotao.com/products/"+bottomCat.getId()+".html";
                             bottomData.setName(bottomUrl+"|"+bottomCat.getName());
                         }
                     }

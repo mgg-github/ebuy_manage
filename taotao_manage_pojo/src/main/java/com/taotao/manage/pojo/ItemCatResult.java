@@ -1,13 +1,15 @@
 package com.taotao.manage.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.http.converter.json.MappingJacksonValue;
 
 import java.util.List;
 
 /**
  * Created by zm on 6/1/17.
  */
-public class ItemCatResult {
+public class ItemCatResult{
+
     @JsonProperty("data")
     private List<ItemCatData> itemCatDataList;
 
