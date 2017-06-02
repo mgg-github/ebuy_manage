@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -20,9 +21,11 @@ public class ContentCatController {
     @Autowired
     private ContentCatService contentCatService;
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<ContentCategory>> selectAllContentCategory(){
+    public ResponseEntity<List<ContentCategory>> selectContentCategory(@RequestParam(value = "id",defaultValue = "0")Long parentId){
         try {
-            List<ContentCategory> contentCategoryList = contentCatService.selectAll();
+            ContentCategory contentCategory = new ContentCategory();
+            contentCategory.setParentId(parentId);
+            List<ContentCategory> contentCategoryList = contentCatService.select(contentCategory);
             if(contentCategoryList==null){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
