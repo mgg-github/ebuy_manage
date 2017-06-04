@@ -37,7 +37,6 @@ public class PicUploadController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public String upload(MultipartFile uploadFile) throws JsonProcessingException {
-        System.out.println(uploadFile.getOriginalFilename());
         PicUploadResult result = new PicUploadResult();
         result.setError(1);
 

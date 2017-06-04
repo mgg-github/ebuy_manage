@@ -1,7 +1,8 @@
 package com.taotao.manage.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.taotao.manage.pojo.Content;
+import com.taotao.common.bean.Content;
+import com.taotao.common.bean.EasyUIResult;
 import com.taotao.manage.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,21 +21,51 @@ public class ContentController {
     @Autowired
     private ContentService contentService;
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<PageInfo<Content>> selectAllContentByPage(
-            @RequestParam(value = "categoryId",defaultValue ="0L")Long categoryId,
+    public ResponseEntity<EasyUIResult> selectAllContentByPage(
+            @RequestParam(value = "categoryId",defaultValue ="0")Long categoryId,
             @RequestParam(value = "page",defaultValue = "1")Integer page,
             @RequestParam(value = "rows",defaultValue = "20")Integer rows){
         try {
-            Content content = new Content();
-            content.setCategoryId(categoryId);
-            PageInfo<Content> pageInfo = contentService.selectPage(content, page, rows);
+            PageInfo<Content> pageInfo = contentService.selectPageByCategoryId(categoryId, page, rows);
+            EasyUIResult easyUIResult = new EasyUIResult(pageInfo.getTotal(), pageInfo.getList());
             if(pageInfo==null){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
-            return ResponseEntity.ok(pageInfo);
+            return ResponseEntity.ok(easyUIResult);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+
+    @RequestMapping(method=RequestMethod.POST)
+    public ResponseEntity<Void> save(Content content){
+                if(content.getCategoryId()==null){
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                }
+        try {
+            content.setId(null);
+            contentService.insert(content);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<Void> update(Content content){
+        if(content.getId()==null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        try {
+            contentService.updateSelective(content);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+
 }

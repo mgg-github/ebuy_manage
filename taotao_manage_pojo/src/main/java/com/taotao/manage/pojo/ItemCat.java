@@ -1,11 +1,11 @@
 package com.taotao.manage.pojo;
 
+import com.taotao.common.bean.BasePojo;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.List;
-import java.util.Set;
 
 @Table(name = "tb_item_cat")
 public class ItemCat extends BasePojo {

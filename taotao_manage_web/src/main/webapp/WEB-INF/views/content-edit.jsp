@@ -66,13 +66,28 @@ var contentEditPage = {
 			}
 			contentEditEditor.sync();
 			
-			$.post("/rest/content/edit",$("#contentEditForm").serialize(), function(data){
-				if(data.status == 200){
-					$.messager.alert('提示','新增内容成功!');
-					$("#contentList").datagrid("reload");
-					TT.closeCurrentWindow();
-				}
-			});
+//			$.post("/rest/content/edit",$("#contentEditForm").serialize(), function(data){
+//				if(data.status == 200){
+//					$.messager.alert('提示','新增内容成功!');
+//					$("#contentList").datagrid("reload");
+//					TT.closeCurrentWindow();
+//				}
+//			});
+            $.ajax({
+                type: "PUT",
+                url: "/rest/content",
+                data: $("#contentEditForm").serialize(),
+                statusCode : {
+                    204 : function(){
+                        $.messager.alert('提示','修改内容成功!');
+                        $("#contentList").datagrid("reload");
+                        TT.closeCurrentWindow();
+                    },
+                    500 : function(){
+                        $.messager.alert('提示','修改内容失败!');
+                    }
+                }
+            });
 		},
 		clearForm : function(){
 			

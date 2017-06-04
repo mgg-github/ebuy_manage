@@ -168,6 +168,7 @@ var TT = TAOTAO = {
     		width : params.width?params.width:"80%",
     		height : params.height?params.height:"80%",
     		modal:true,
+			shadow:true,
     		title : params.title?params.title:" ",
     		href : params.url,
 		    onClose : function(){
